@@ -24,8 +24,8 @@ const (
 	ArtistImages = ArtistByID + "/images"
 
 	Characters       = Domain + "/characters"
-	CharactersByID   = Characters + "/%d"
-	CharactersImages = CharactersByID + "/images"
+	CharacterByID   = Characters + "/%d"
+	CharactersImages = CharacterByID + "/images"
 )
 
 // MultipleContainer is struct that is returned when there can be
