@@ -14,6 +14,26 @@ type Client struct {
 	DefaultQuery url.Values
 }
 
+// Get is wrapper for GET http method
+func (c *Client) Get(path string, query url.Values, result interface{}) error {
+	return c.CallAPI(http.MethodGet, path, query, result)
+}
+
+// GetWithContext is wrapper for GET http method
+func (c *Client) GetWithContext(ctx context.Context, path string, query url.Values, result interface{}) error {
+	return c.CallAPIWithContext(ctx, http.MethodGet, path, query, result)
+}
+
+// Post is wrapper for POST http method
+func (c *Client) Post(path string, query url.Values, result interface{}) error {
+	return c.CallAPI(http.MethodPost, path, query, result)
+}
+
+// PostWithContext is wrapper for POST http method
+func (c *Client) PostWithContext(ctx context.Context, path string, query url.Values, result interface{}) error {
+	return c.CallAPIWithContext(ctx, http.MethodPost, path, query, result)
+}
+
 // applyDefaultQuery adds parameters from DefaultQuery that aren't present in query to query
 func (c *Client) applyDefaultQuery(query *url.Values) {
 	for k, v := range c.DefaultQuery {
