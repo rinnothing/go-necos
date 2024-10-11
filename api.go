@@ -54,8 +54,11 @@ func (c *Client) CallAPI(method, path string, query url.Values, result interface
 //
 // At first it builds query suffix from provided url.Values and DefaultQuery, makes request, and marshals response data
 func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, query url.Values, result interface{}) error {
-	c.applyDefaultQuery(&query)
-	queryEnc := query.Encode()
+	var queryEnc string
+	if query != nil {
+		c.applyDefaultQuery(&query)
+		queryEnc = query.Encode()
+	}
 
 	req, err := http.NewRequestWithContext(ctx, method, path+queryEnc, http.NoBody)
 	if err != nil {
