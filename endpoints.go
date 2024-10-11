@@ -1,6 +1,8 @@
 package go_necos
 
 import (
+	"context"
+	"fmt"
 	"net/url"
 )
 
@@ -24,7 +26,7 @@ const (
 	ArtistImages = ArtistByID + "/images"
 
 	Characters       = Domain + "/characters"
-	CharacterByID   = Characters + "/%d"
+	CharacterByID    = Characters + "/%d"
 	CharactersImages = CharacterByID + "/images"
 )
 
@@ -137,3 +139,211 @@ type Color [3]int
 // age (array of integers), gender (string), species (string), nationality (string), occupation (array of strings),
 // tag (array of integers), limit (integer) [1...100, 100 by default], offset (integer) [>=0, 0 by default]
 type Request url.Values
+
+func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	err := c.Get(Images, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	err := c.GetWithContext(ctx, Images, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	err := c.Get(RandomImages, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	err := c.GetWithContext(ctx, RandomImages, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) Report(req Report) error {
+	return c.Post(ReportImage, url.Values(req), nil)
+}
+
+func (c *Client) ReportWithContext(ctx context.Context, req Report) error {
+	return c.PostWithContext(ctx, ReportImage, url.Values(req), nil)
+}
+
+func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
+	var ret MultipleContainer[Tag]
+	err := c.Get(Tags, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetTagWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
+	var ret MultipleContainer[Tag]
+	err := c.GetWithContext(ctx, Tags, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetTagByID(id int) (Tag, error) {
+	var ret Tag
+	path := fmt.Sprintf(TagByID, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetTagByIDWithContext(ctx context.Context, id int) (Tag, error) {
+	var ret Tag
+	path := fmt.Sprintf(TagByID, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetTagImages(tagID int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(TagImages, tagID)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetTagImagesWithContext(ctx context.Context, tagID int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(TagImages, tagID)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageByID(id int) (Image, error) {
+	var ret Image
+	path := fmt.Sprintf(ImageByID, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageByIDWithContext(ctx context.Context, id int) (Image, error) {
+	var ret Image
+	path := fmt.Sprintf(ImageByID, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageArtist(id int) (Artist, error) {
+	var ret Artist
+	path := fmt.Sprintf(ImageArtist, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist, error) {
+	var ret Artist
+	path := fmt.Sprintf(ImageArtist, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageCharacters(id int) (MultipleContainer[Character], error) {
+	var ret MultipleContainer[Character]
+	path := fmt.Sprintf(ImageCharacters, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int) (MultipleContainer[Character], error) {
+	var ret MultipleContainer[Character]
+	path := fmt.Sprintf(ImageCharacters, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageTags(id int) (MultipleContainer[Tag], error) {
+	var ret MultipleContainer[Tag]
+	path := fmt.Sprintf(ImageTags, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleContainer[Tag], error) {
+	var ret MultipleContainer[Tag]
+	path := fmt.Sprintf(ImageTags, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
+	var ret MultipleContainer[Artist]
+	err := c.Get(Artists, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtistsWithContext(ctx context.Context, req Request) (MultipleContainer[Artist], error) {
+	var ret MultipleContainer[Artist]
+	err := c.GetWithContext(ctx, Artists, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtistByID(id int) (Artist, error) {
+	var ret Artist
+	path := fmt.Sprintf(ArtistByID, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtistByIDWithContext(ctx context.Context, id int) (Artist, error) {
+	var ret Artist
+	path := fmt.Sprintf(ArtistByID, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtistImages(id int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(ArtistImages, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(ArtistImages, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error) {
+	var ret MultipleContainer[Character]
+	err := c.Get(Characters, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharactersWithContext(ctx context.Context, req Request) (MultipleContainer[Character], error) {
+	var ret MultipleContainer[Character]
+	err := c.GetWithContext(ctx, Characters, url.Values(req), &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharacterByID(id int) (Character, error) {
+	var ret Character
+	path := fmt.Sprintf(CharacterByID, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Character, error) {
+	var ret Character
+	path := fmt.Sprintf(CharacterByID, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharacterImages(id int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(CharactersImages, id)
+	err := c.Get(path, nil, &ret)
+	return ret, err
+}
+
+func (c *Client) GetCharacterImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
+	var ret MultipleContainer[Image]
+	path := fmt.Sprintf(CharactersImages, id)
+	err := c.GetWithContext(ctx, path, nil, &ret)
+	return ret, err
+}
