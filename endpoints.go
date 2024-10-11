@@ -4,11 +4,19 @@ import (
 	"net/url"
 )
 
+// MultipleContainer is struct that is returned when there can be
+// more than one answer to the request
+//
+// returned by: /images, /images/random, /images/tags, /images/tags/{id}/images, /images/{id}/characters,
+// /images/{id}/tags, /artists, /artist/{id}/images, /characters, /characters/{id}/images
 type MultipleContainer[T any] struct {
 	Items []T
 	Count int
 }
 
+// Image is struct representing the image data returned by API
+//
+// returned by: /images/{id}
 type Image struct {
 	ID             int
 	IDv2           string `json:"id_v2"`
@@ -40,6 +48,9 @@ type Image struct {
 	UpdatedAt      float64 `json:"updated_at"`
 }
 
+// Artist is data type that represents artist data returned by API
+//
+// returned by: /artists/{id}
 type Artist struct {
 	ID           int
 	IDv2         string `json:"id_v2"`
@@ -52,6 +63,9 @@ type Artist struct {
 	PolicyAI     string `json:"policy_ai"`
 }
 
+// Character is data type that represents character data returned by API
+//
+// returned by: /characters/{id}
 type Character struct {
 	ID          int
 	IDv2        string `json:"id_v2"`
@@ -68,6 +82,9 @@ type Character struct {
 	Occupations []string
 }
 
+// Tag is data type that represents tag data returned by API
+//
+// returned by: /images/tags/{id}
 type Tag struct {
 	ID          int
 	IDv2        string `json:"id_v2"`
@@ -77,8 +94,22 @@ type Tag struct {
 	IsNSFW      bool `json:"is_nsfw"`
 }
 
+// Report contains data needed to make POST request to report an image.
+// Should contain id (integer) or url (string)
 type Report url.Values
 
+// Color is custom data used in parsing of colors
 type Color [3]int
 
+// Request is data needed to make GET request to any of endpoints using URL query
+//
+// since all fields are optional and nothing breaks in the API when providing extra fields
+// I decided it would be easier to make it from url.Values and don't make extra struct
+// (url.Values is also easy to encode to query syntax)
+//
+// list of possible fields: search (string), id (integer), rating (array of strings), is_original (boolean),
+// is_screenshot (boolean), is_flagged (boolean), is_animated (boolean), is_nsfw (boolean), policy_repost (boolean),
+// policy_credit (boolean), policy_ai (boolean), artist (integer), character (array of integers),
+// age (array of integers), gender (string), species (string), nationality (string), occupation (array of strings),
+// tag (array of integers), limit (integer) [1...100, 100 by default], offset (integer) [>=0, 0 by default]
 type Request url.Values
