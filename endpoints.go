@@ -77,6 +77,8 @@ type Tag struct {
 	IsNSFW      bool `json:"is_nsfw"`
 }
 
+type Report url.Values
+
 type Color [3]int
 
 type Request url.Values
