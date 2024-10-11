@@ -4,6 +4,30 @@ import (
 	"net/url"
 )
 
+// endpoint urls for wrapper to call
+const (
+	Domain = "https://api.nekosapi.com/v3"
+
+	Images          = Domain + "/images"
+	RandomImages    = Images + "/random"
+	ReportImage     = Images + "/report"
+	Tags            = Images + "/tags"
+	TagByID         = Tags + "/%d"
+	TagImages       = TagByID + "/images"
+	ImageByID       = Images + "/%d"
+	ImageArtist     = ImageByID + "/artist"
+	ImageCharacters = ImageByID + "/characters"
+	ImageTags       = ImageByID + "/tags"
+
+	Artists      = Domain + "/artists"
+	ArtistByID   = Artists + "/%d"
+	ArtistImages = ArtistByID + "/images"
+
+	Characters       = Domain + "/characters"
+	CharactersByID   = Characters + "/%d"
+	CharactersImages = CharactersByID + "/images"
+)
+
 // MultipleContainer is struct that is returned when there can be
 // more than one answer to the request
 //
