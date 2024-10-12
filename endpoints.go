@@ -122,7 +122,7 @@ type Tag struct {
 
 // Report contains data needed to make POST request to report an image.
 // Should contain id (integer) or url (string)
-type Report url.Values
+type Report = url.Values
 
 // Color is custom data used in parsing of colors
 type Color [3]int
@@ -138,49 +138,49 @@ type Color [3]int
 // policy_credit (boolean), policy_ai (boolean), artist (integer), character (array of integers),
 // age (array of integers), gender (string), species (string), nationality (string), occupation (array of strings),
 // tag (array of integers), limit (integer) [1...100, 100 by default], offset (integer) [>=0, 0 by default]
-type Request url.Values
+type Request = url.Values
 
 func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.Get(Images, url.Values(req), &ret)
+	err := c.Get(Images, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.GetWithContext(ctx, Images, url.Values(req), &ret)
+	err := c.GetWithContext(ctx, Images, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.Get(RandomImages, url.Values(req), &ret)
+	err := c.Get(RandomImages, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.GetWithContext(ctx, RandomImages, url.Values(req), &ret)
+	err := c.GetWithContext(ctx, RandomImages, req, &ret)
 	return ret, err
 }
 
 func (c *Client) Report(req Report) error {
-	return c.Post(ReportImage, url.Values(req), nil)
+	return c.Post(ReportImage, req, nil)
 }
 
 func (c *Client) ReportWithContext(ctx context.Context, req Report) error {
-	return c.PostWithContext(ctx, ReportImage, url.Values(req), nil)
+	return c.PostWithContext(ctx, ReportImage, req, nil)
 }
 
 func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	err := c.Get(Tags, url.Values(req), &ret)
+	err := c.Get(Tags, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetTagWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	err := c.GetWithContext(ctx, Tags, url.Values(req), &ret)
+	err := c.GetWithContext(ctx, Tags, req, &ret)
 	return ret, err
 }
 
@@ -270,13 +270,13 @@ func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleC
 
 func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
-	err := c.Get(Artists, url.Values(req), &ret)
+	err := c.Get(Artists, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetArtistsWithContext(ctx context.Context, req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
-	err := c.GetWithContext(ctx, Artists, url.Values(req), &ret)
+	err := c.GetWithContext(ctx, Artists, req, &ret)
 	return ret, err
 }
 
@@ -310,13 +310,13 @@ func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (Multip
 
 func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	err := c.Get(Characters, url.Values(req), &ret)
+	err := c.Get(Characters, req, &ret)
 	return ret, err
 }
 
 func (c *Client) GetCharactersWithContext(ctx context.Context, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	err := c.GetWithContext(ctx, Characters, url.Values(req), &ret)
+	err := c.GetWithContext(ctx, Characters, req, &ret)
 	return ret, err
 }
 
