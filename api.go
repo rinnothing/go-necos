@@ -60,6 +60,8 @@ func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, qu
 		cloneQuery := maps.Clone(query)
 		c.applyDefaultQuery(cloneQuery)
 		queryEnc = cloneQuery.Encode()
+	} else {
+		queryEnc = c.DefaultQuery.Encode()
 	}
 
 	req, err := http.NewRequestWithContext(ctx, method, path+queryEnc, http.NoBody)
