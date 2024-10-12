@@ -25,9 +25,9 @@ const (
 	ArtistByID   = Artists + "/%d"
 	ArtistImages = ArtistByID + "/images"
 
-	Characters       = Domain + "/characters"
-	CharacterByID    = Characters + "/%d"
-	CharactersImages = CharacterByID + "/images"
+	Characters      = Domain + "/characters"
+	CharacterByID   = Characters + "/%d"
+	CharacterImages = CharacterByID + "/images"
 )
 
 // MultipleContainer is struct that is returned when there can be
@@ -140,50 +140,59 @@ type Color [3]int
 // tag (array of integers), limit (integer) [1...100, 100 by default], offset (integer) [>=0, 0 by default]
 type Request = url.Values
 
+// GetImages is a wrapper for Images endpoint
 func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.Get(Images, req, &ret)
 	return ret, err
 }
 
+// GetImagesWithContext is a wrapper for Images endpoint
 func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.GetWithContext(ctx, Images, req, &ret)
 	return ret, err
 }
 
+// GetRandomImages is a wrapper for RandomImages endpoint
 func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.Get(RandomImages, req, &ret)
 	return ret, err
 }
 
+// GetRandomImagesWithContext is a wrapper for RandomImages endpoint
 func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.GetWithContext(ctx, RandomImages, req, &ret)
 	return ret, err
 }
 
+// Report is a wrapper for Report endpoint
 func (c *Client) Report(req Report) error {
 	return c.Post(ReportImage, req, nil)
 }
 
+// ReportWithContext is a wrapper for Report endpoint
 func (c *Client) ReportWithContext(ctx context.Context, req Report) error {
 	return c.PostWithContext(ctx, ReportImage, req, nil)
 }
 
+// GetTags is a wrapper for Tags endpoint
 func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	err := c.Get(Tags, req, &ret)
 	return ret, err
 }
 
-func (c *Client) GetTagWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
+// GetTagsWithContext is a wrapper for Tags endpoint
+func (c *Client) GetTagsWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	err := c.GetWithContext(ctx, Tags, req, &ret)
 	return ret, err
 }
 
+// GetTagByID is a wrapper for TagByID endpoint
 func (c *Client) GetTagByID(id int) (Tag, error) {
 	var ret Tag
 	path := fmt.Sprintf(TagByID, id)
@@ -191,6 +200,7 @@ func (c *Client) GetTagByID(id int) (Tag, error) {
 	return ret, err
 }
 
+// GetTagByIDWithContext is a wrapper for TagByID endpoint
 func (c *Client) GetTagByIDWithContext(ctx context.Context, id int) (Tag, error) {
 	var ret Tag
 	path := fmt.Sprintf(TagByID, id)
@@ -198,6 +208,7 @@ func (c *Client) GetTagByIDWithContext(ctx context.Context, id int) (Tag, error)
 	return ret, err
 }
 
+// GetTagImages is a wrapper for TagImages endpoint
 func (c *Client) GetTagImages(tagID int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(TagImages, tagID)
@@ -205,6 +216,7 @@ func (c *Client) GetTagImages(tagID int) (MultipleContainer[Image], error) {
 	return ret, err
 }
 
+// GetTagImagesWithContext is a wrapper for TagImages endpoint
 func (c *Client) GetTagImagesWithContext(ctx context.Context, tagID int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(TagImages, tagID)
@@ -212,6 +224,7 @@ func (c *Client) GetTagImagesWithContext(ctx context.Context, tagID int) (Multip
 	return ret, err
 }
 
+// GetImageByID is a wrapper for ImageByID endpoint
 func (c *Client) GetImageByID(id int) (Image, error) {
 	var ret Image
 	path := fmt.Sprintf(ImageByID, id)
@@ -219,6 +232,7 @@ func (c *Client) GetImageByID(id int) (Image, error) {
 	return ret, err
 }
 
+// GetImageByIDWithContext is a wrapper for ImageByID endpoint
 func (c *Client) GetImageByIDWithContext(ctx context.Context, id int) (Image, error) {
 	var ret Image
 	path := fmt.Sprintf(ImageByID, id)
@@ -226,6 +240,7 @@ func (c *Client) GetImageByIDWithContext(ctx context.Context, id int) (Image, er
 	return ret, err
 }
 
+// GetImageArtist is a wrapper for ImageArtist endpoint
 func (c *Client) GetImageArtist(id int) (Artist, error) {
 	var ret Artist
 	path := fmt.Sprintf(ImageArtist, id)
@@ -233,6 +248,7 @@ func (c *Client) GetImageArtist(id int) (Artist, error) {
 	return ret, err
 }
 
+// GetImageArtistWithContext is a wrapper for ImageArtist endpoint
 func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist, error) {
 	var ret Artist
 	path := fmt.Sprintf(ImageArtist, id)
@@ -240,6 +256,7 @@ func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist,
 	return ret, err
 }
 
+// GetImageCharacters is a wrapper for ImageCharacters endpoint
 func (c *Client) GetImageCharacters(id int) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	path := fmt.Sprintf(ImageCharacters, id)
@@ -247,6 +264,7 @@ func (c *Client) GetImageCharacters(id int) (MultipleContainer[Character], error
 	return ret, err
 }
 
+// GetImageCharactersWithContext is a wrapper for ImageCharacters endpoint
 func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	path := fmt.Sprintf(ImageCharacters, id)
@@ -254,6 +272,7 @@ func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int) (Mul
 	return ret, err
 }
 
+// GetImageTags is a wrapper for ImageTags endpoint
 func (c *Client) GetImageTags(id int) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	path := fmt.Sprintf(ImageTags, id)
@@ -261,6 +280,7 @@ func (c *Client) GetImageTags(id int) (MultipleContainer[Tag], error) {
 	return ret, err
 }
 
+// GetImageTagsWithContext is a wrapper for ImageTags endpoint
 func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	path := fmt.Sprintf(ImageTags, id)
@@ -268,18 +288,21 @@ func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleC
 	return ret, err
 }
 
+// GetArtists is a wrapper for Artists endpoint
 func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
 	err := c.Get(Artists, req, &ret)
 	return ret, err
 }
 
+// GetArtistsWithContext is a wrapper for Artists endpoint
 func (c *Client) GetArtistsWithContext(ctx context.Context, req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
 	err := c.GetWithContext(ctx, Artists, req, &ret)
 	return ret, err
 }
 
+// GetArtistByID is a wrapper for ArtistByID endpoint
 func (c *Client) GetArtistByID(id int) (Artist, error) {
 	var ret Artist
 	path := fmt.Sprintf(ArtistByID, id)
@@ -287,6 +310,7 @@ func (c *Client) GetArtistByID(id int) (Artist, error) {
 	return ret, err
 }
 
+// GetArtistByIDWithContext is a wrapper for ArtistByID endpoint
 func (c *Client) GetArtistByIDWithContext(ctx context.Context, id int) (Artist, error) {
 	var ret Artist
 	path := fmt.Sprintf(ArtistByID, id)
@@ -294,6 +318,7 @@ func (c *Client) GetArtistByIDWithContext(ctx context.Context, id int) (Artist, 
 	return ret, err
 }
 
+// GetArtistImages is a wrapper for ArtistImages endpoint
 func (c *Client) GetArtistImages(id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(ArtistImages, id)
@@ -301,6 +326,7 @@ func (c *Client) GetArtistImages(id int) (MultipleContainer[Image], error) {
 	return ret, err
 }
 
+// GetArtistImagesWithContext is a wrapper for ArtistImages endpoint
 func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(ArtistImages, id)
@@ -308,18 +334,21 @@ func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (Multip
 	return ret, err
 }
 
+// GetCharacters is a wrapper for Characters endpoint
 func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	err := c.Get(Characters, req, &ret)
 	return ret, err
 }
 
+// GetCharactersWithContext is a wrapper for Characters endpoint
 func (c *Client) GetCharactersWithContext(ctx context.Context, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	err := c.GetWithContext(ctx, Characters, req, &ret)
 	return ret, err
 }
 
+// GetCharacterByID is a wrapper for CharacterByID endpoint
 func (c *Client) GetCharacterByID(id int) (Character, error) {
 	var ret Character
 	path := fmt.Sprintf(CharacterByID, id)
@@ -327,6 +356,7 @@ func (c *Client) GetCharacterByID(id int) (Character, error) {
 	return ret, err
 }
 
+// GetCharacterByIDWithContext is a wrapper for CharacterByID endpoint
 func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Character, error) {
 	var ret Character
 	path := fmt.Sprintf(CharacterByID, id)
@@ -334,16 +364,18 @@ func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Chara
 	return ret, err
 }
 
+// GetCharacterImages is a wrapper for CharacterImages endpoint
 func (c *Client) GetCharacterImages(id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(CharactersImages, id)
+	path := fmt.Sprintf(CharacterImages, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
 
+// GetCharacterImagesWithContext is a wrapper for CharacterImages endpoint
 func (c *Client) GetCharacterImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(CharactersImages, id)
+	path := fmt.Sprintf(CharacterImages, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
