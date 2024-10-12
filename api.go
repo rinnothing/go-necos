@@ -78,5 +78,8 @@ func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, qu
 	if err != nil {
 		return err
 	}
+	if err = response.Body.Close(); err != nil {
+		return err
+	}
 	return json.Unmarshal(body, result)
 }
