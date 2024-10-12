@@ -428,17 +428,23 @@ func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Chara
 }
 
 // GetCharacterImages is a wrapper for CharacterImages endpoint
-func (c *Client) GetCharacterImages(id int) (MultipleContainer[Image], error) {
+//
+// Request for GetCharacterImages supports those parameters:
+//   - limit (integer) - [1..100], default = 100
+//   - offset (integer) - >= 0, default = 0
+func (c *Client) GetCharacterImages(id int, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(CharacterImages, id)
-	err := c.Get(path, nil, &ret)
+	err := c.Get(path, req, &ret)
 	return ret, err
 }
 
 // GetCharacterImagesWithContext is a wrapper for CharacterImages endpoint
-func (c *Client) GetCharacterImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
+//
+// For more info on Request parameters see GetCharacterImages
+func (c *Client) GetCharacterImagesWithContext(ctx context.Context, id int, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	path := fmt.Sprintf(CharacterImages, id)
-	err := c.GetWithContext(ctx, path, nil, &ret)
+	err := c.GetWithContext(ctx, path, req, &ret)
 	return ret, err
 }
