@@ -15,22 +15,22 @@ type Client struct {
 	DefaultQuery url.Values
 }
 
-// Get is wrapper for GET http method
+// Get is a wrapper for GET http method
 func (c *Client) Get(path string, query url.Values, result interface{}) error {
 	return c.CallAPI(http.MethodGet, path, query, result)
 }
 
-// GetWithContext is wrapper for GET http method
+// GetWithContext is a wrapper for GET http method
 func (c *Client) GetWithContext(ctx context.Context, path string, query url.Values, result interface{}) error {
 	return c.CallAPIWithContext(ctx, http.MethodGet, path, query, result)
 }
 
-// Post is wrapper for POST http method
+// Post is a wrapper for POST http method
 func (c *Client) Post(path string, query url.Values, result interface{}) error {
 	return c.CallAPI(http.MethodPost, path, query, result)
 }
 
-// PostWithContext is wrapper for POST http method
+// PostWithContext is a wrapper for POST http method
 func (c *Client) PostWithContext(ctx context.Context, path string, query url.Values, result interface{}) error {
 	return c.CallAPIWithContext(ctx, http.MethodPost, path, query, result)
 }
@@ -46,12 +46,12 @@ func (c *Client) applyDefaultQuery(query url.Values) {
 	}
 }
 
-// CallAPI is plain api call, which uses context.Background()
+// CallAPI is a plain api call, which uses context.Background()
 func (c *Client) CallAPI(method, path string, query url.Values, result interface{}) error {
 	return c.CallAPIWithContext(context.Background(), method, path, query, result)
 }
 
-// CallAPIWithContext is plain api call
+// CallAPIWithContext is a plain api call
 //
 // At first it builds query suffix from provided url.Values and DefaultQuery, makes request, and marshals response data
 func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, query url.Values, result interface{}) error {
