@@ -141,6 +141,18 @@ type Color [3]int
 type Request = url.Values
 
 // GetImages is a wrapper for Images endpoint
+//
+// Request for GetImages supports those parameters:
+//   - rating (array of strings)
+//   - is_original (boolean)
+//   - is_screenshot (boolean)
+//   - is flagged (boolean) - whether the image is flagged by mods
+//   - is animated (boolean)
+//   - artist (integer) - the arist's ID
+//   - character (array of integers) - the character's ID
+//   - tag (array of integers) - the tag's ID
+//   - limit (integer) - [1..100], default = 100
+//   - offset (integer) - >= 0, default = 0
 func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.Get(Images, req, &ret)
@@ -148,6 +160,8 @@ func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 }
 
 // GetImagesWithContext is a wrapper for Images endpoint
+//
+// For more info on Request parameters see GetImages
 func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.GetWithContext(ctx, Images, req, &ret)
@@ -155,6 +169,17 @@ func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (Multipl
 }
 
 // GetRandomImages is a wrapper for RandomImages endpoint
+//
+// Request for GetRandomImages supports those parameters:
+//   - rating (array of strings)
+//   - is_original (boolean)
+//   - is_screenshot (boolean)
+//   - is flagged (boolean) - whether the image is flagged by mods
+//   - is animated (boolean)
+//   - artist (integer) - the arist's ID
+//   - character (array of integers) - the character's ID
+//   - tag (array of integers) - the tag's ID
+//   - limit (integer) - [1..100], default = 100
 func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.Get(RandomImages, req, &ret)
@@ -162,23 +187,37 @@ func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) 
 }
 
 // GetRandomImagesWithContext is a wrapper for RandomImages endpoint
+//
+// For more info on Request parameters see GetRandomImages
 func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
 	err := c.GetWithContext(ctx, RandomImages, req, &ret)
 	return ret, err
 }
 
-// Report is a wrapper for Report endpoint
-func (c *Client) Report(req Report) error {
+// PostReport is a wrapper for ReportImage endpoint
+//
+// Report for PostReport supports those parameters:
+//   - id (integer) - probably the id of Image
+//   - url (string) - probably the url of Image
+func (c *Client) PostReport(req Report) error {
 	return c.Post(ReportImage, req, nil)
 }
 
-// ReportWithContext is a wrapper for Report endpoint
-func (c *Client) ReportWithContext(ctx context.Context, req Report) error {
+// PostReportWithContext is a wrapper for ReportImage endpoint
+//
+// For more info on Report parameters see PostReport
+func (c *Client) PostReportWithContext(ctx context.Context, req Report) error {
 	return c.PostWithContext(ctx, ReportImage, req, nil)
 }
 
 // GetTags is a wrapper for Tags endpoint
+//
+// Request for GetTags supports those parameters:
+//   - search (string) - search for a tag by name or description
+//   - is_nsfw (boolean)
+//   - limit (integer) - [1..100], default = 100
+//   - offset (integer) - >= 0, default = 0
 func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	err := c.Get(Tags, req, &ret)
@@ -186,6 +225,8 @@ func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 }
 
 // GetTagsWithContext is a wrapper for Tags endpoint
+//
+// For more info on Request parameters see GetTags
 func (c *Client) GetTagsWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	err := c.GetWithContext(ctx, Tags, req, &ret)
@@ -289,6 +330,14 @@ func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleC
 }
 
 // GetArtists is a wrapper for Artists endpoint
+//
+// Request for GetArtists supports those parameters:
+//   - search (string) - Search term. Will return all tags with this term(s) in their name or description
+//   - policy_repost (boolean) - Does this artist allow you to repost their art in other places?
+//   - policy_credit (boolean) - Are you required to credit the artist when using their art?
+//   - policy_ai (boolean) - Does the artist allow you to use their art for AI projects (AI training)?
+//   - limit (integer) - [1..100], default = 100
+//   - offset (integer) - >= 0, default = 0
 func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
 	err := c.Get(Artists, req, &ret)
@@ -296,6 +345,8 @@ func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 }
 
 // GetArtistsWithContext is a wrapper for Artists endpoint
+//
+// For more info on Request parameters see GetArtists
 func (c *Client) GetArtistsWithContext(ctx context.Context, req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
 	err := c.GetWithContext(ctx, Artists, req, &ret)
@@ -335,6 +386,16 @@ func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (Multip
 }
 
 // GetCharacters is a wrapper for Characters endpoint
+//
+// Request for GetCharacters supports those parameters:
+//   - search (string) - probably searches for the term in name and description
+//   - age (array of integers) - One or more of the character's (official) ages.
+//   - gender (string)
+//   - species (string)
+//   - nationality (string)
+//   - occupation (array of strings) - Occupations the character officially has/has officially had.
+//   - limit (integer) - [1..100], default = 100
+//   - offset (integer) - >= 0, default = 0
 func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	err := c.Get(Characters, req, &ret)
@@ -342,6 +403,8 @@ func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error
 }
 
 // GetCharactersWithContext is a wrapper for Characters endpoint
+//
+// For more info on Request parameters see GetCharacters
 func (c *Client) GetCharactersWithContext(ctx context.Context, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	err := c.GetWithContext(ctx, Characters, req, &ret)
