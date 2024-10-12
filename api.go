@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"maps"
 	"net/http"
 	"net/url"
 )
@@ -35,13 +36,13 @@ func (c *Client) PostWithContext(ctx context.Context, path string, query url.Val
 }
 
 // applyDefaultQuery adds parameters from DefaultQuery that aren't present in query to query
-func (c *Client) applyDefaultQuery(query *url.Values) {
+func (c *Client) applyDefaultQuery(query url.Values) {
 	for k, v := range c.DefaultQuery {
-		if _, ok := (*query)[k]; ok {
+		if _, ok := query[k]; ok {
 			continue
 		}
 
-		(*query)[k] = v
+		query[k] = v
 	}
 }
 
@@ -56,8 +57,9 @@ func (c *Client) CallAPI(method, path string, query url.Values, result interface
 func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, query url.Values, result interface{}) error {
 	var queryEnc string
 	if query != nil {
-		c.applyDefaultQuery(&query)
-		queryEnc = query.Encode()
+		cloneQuery := maps.Clone(query)
+		c.applyDefaultQuery(cloneQuery)
+		queryEnc = cloneQuery.Encode()
 	}
 
 	req, err := http.NewRequestWithContext(ctx, method, path+queryEnc, http.NoBody)
