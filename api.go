@@ -13,6 +13,11 @@ import (
 type Client struct {
 	http.Client
 	DefaultQuery url.Values
+	Domain       string
+}
+
+func newClient() *Client {
+	return &Client{Domain: "https://api.nekosapi.com/v3"}
 }
 
 // Get is a wrapper for GET http method
