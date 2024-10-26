@@ -8,6 +8,7 @@ import (
 
 // endpoint urls for wrapper to call
 const (
+	DefaultDomain   = "https://api.nekosapi.com/v3"
 	Images          = "/images"
 	RandomImages    = Images + "/random"
 	ReportImage     = Images + "/report"
