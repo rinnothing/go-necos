@@ -61,15 +61,22 @@ func (c *Client) CallAPI(method, path string, query url.Values, result interface
 // At first it builds query suffix from provided url.Values and DefaultQuery, makes request, and marshals response data
 func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, query url.Values, result interface{}) error {
 	var queryEnc string
-	if query != nil {
+	if query == nil {
+		queryEnc = c.DefaultQuery.Encode()
+	} else if c.DefaultQuery == nil {
+		queryEnc = query.Encode()
+	} else {
 		cloneQuery := maps.Clone(query)
 		c.applyDefaultQuery(cloneQuery)
 		queryEnc = cloneQuery.Encode()
-	} else {
-		queryEnc = c.DefaultQuery.Encode()
 	}
 
-	req, err := http.NewRequestWithContext(ctx, method, path+queryEnc, http.NoBody)
+	reqPath := c.Domain + path
+	if queryEnc != "" {
+		reqPath += "?" + queryEnc
+	}
+
+	req, err := http.NewRequestWithContext(ctx, method, reqPath, http.NoBody)
 	if err != nil {
 		return err
 	}
