@@ -1,6 +1,7 @@
 package go_necos
 
 import (
+	"encoding/json"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
@@ -22,8 +23,12 @@ func TestGet(t *testing.T) {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
 
-		ans := r.URL.Path + r.URL.RawQuery
-		_, _ = w.Write([]byte(ans))
+		ans := r.URL.Path
+		if r.URL.RawQuery != "" {
+			ans += "?" + r.URL.RawQuery
+		}
+		m, _ := json.Marshal(ans)
+		_, _ = w.Write(m)
 	}))
 
 	c := Client{
@@ -33,9 +38,9 @@ func TestGet(t *testing.T) {
 	tableTests := []testCases{
 		{
 			name:   "empty_root",
-			path:   "",
+			path:   "/",
 			query:  url.Values{},
-			result: "",
+			result: "/",
 		},
 		{
 			name:   "empty_directory",
@@ -45,9 +50,9 @@ func TestGet(t *testing.T) {
 		},
 		{
 			name:   "query_root",
-			path:   "",
+			path:   "/",
 			query:  url.Values{"oh": {"hello", "there"}},
-			result: "?oh=hello&oh=there",
+			result: "/?oh=hello&oh=there",
 		},
 		{
 			name:   "query_directory",
