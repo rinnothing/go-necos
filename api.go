@@ -17,7 +17,7 @@ type Client struct {
 }
 
 func newClient() *Client {
-	return &Client{Domain: "https://api.nekosapi.com/v3"}
+	return &Client{Domain: DefaultDomain}
 }
 
 // Get is a wrapper for GET http method
