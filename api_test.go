@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"sync"
 	"testing"
 )
 
@@ -24,7 +25,6 @@ func TestGet(t *testing.T) {
 		ans := r.URL.Path + r.URL.RawQuery
 		_, _ = w.Write([]byte(ans))
 	}))
-	defer s.Close()
 
 	c := Client{
 		Domain: s.URL,
@@ -57,15 +57,27 @@ func TestGet(t *testing.T) {
 		},
 	}
 
-	for _, cs := range tableTests {
+	wg := sync.WaitGroup{}
+	for i := range tableTests {
+		cs := tableTests[i]
+		wg.Add(1)
+
 		t.Run(cs.name, func(t *testing.T) {
 			t.Parallel()
+
+			defer wg.Done()
 			var answer string
 
 			err := c.Get(cs.path, cs.query, &answer)
+
 			require.NoError(t, err)
 
 			require.Equal(t, cs.result, answer)
 		})
 	}
+
+	go func() {
+		wg.Wait()
+		s.Close()
+	}()
 }
