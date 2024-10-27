@@ -154,7 +154,7 @@ type Request = url.Values
 //   - offset (integer) - >= 0, default = 0
 func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.Get(c.Domain+Images, req, &ret)
+	err := c.Get(Images, req, &ret)
 	return ret, err
 }
 
@@ -163,7 +163,7 @@ func (c *Client) GetImages(req Request) (MultipleContainer[Image], error) {
 // For more info on Request parameters see GetImages
 func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.GetWithContext(ctx, c.Domain+Images, req, &ret)
+	err := c.GetWithContext(ctx, Images, req, &ret)
 	return ret, err
 }
 
@@ -181,7 +181,7 @@ func (c *Client) GetImagesWithContext(ctx context.Context, req Request) (Multipl
 //   - limit (integer) - [1..100], default = 100
 func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.Get(c.Domain+RandomImages, req, &ret)
+	err := c.Get(RandomImages, req, &ret)
 	return ret, err
 }
 
@@ -190,7 +190,7 @@ func (c *Client) GetRandomImages(req Request) (MultipleContainer[Image], error) 
 // For more info on Request parameters see GetRandomImages
 func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	err := c.GetWithContext(ctx, c.Domain+RandomImages, req, &ret)
+	err := c.GetWithContext(ctx, RandomImages, req, &ret)
 	return ret, err
 }
 
@@ -200,14 +200,14 @@ func (c *Client) GetRandomImagesWithContext(ctx context.Context, req Request) (M
 //   - id (integer) - probably the id of Image
 //   - url (string) - probably the url of Image
 func (c *Client) PostReport(req Report) error {
-	return c.Post(c.Domain+ReportImage, req, nil)
+	return c.Post(ReportImage, req, nil)
 }
 
 // PostReportWithContext is a wrapper for ReportImage endpoint
 //
 // For more info on Report parameters see PostReport
 func (c *Client) PostReportWithContext(ctx context.Context, req Report) error {
-	return c.PostWithContext(ctx, c.Domain+ReportImage, req, nil)
+	return c.PostWithContext(ctx, ReportImage, req, nil)
 }
 
 // GetTags is a wrapper for Tags endpoint
@@ -219,7 +219,7 @@ func (c *Client) PostReportWithContext(ctx context.Context, req Report) error {
 //   - offset (integer) - >= 0, default = 0
 func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	err := c.Get(c.Domain+Tags, req, &ret)
+	err := c.Get(Tags, req, &ret)
 	return ret, err
 }
 
@@ -228,14 +228,14 @@ func (c *Client) GetTags(req Request) (MultipleContainer[Tag], error) {
 // For more info on Request parameters see GetTags
 func (c *Client) GetTagsWithContext(ctx context.Context, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	err := c.GetWithContext(ctx, c.Domain+Tags, req, &ret)
+	err := c.GetWithContext(ctx, Tags, req, &ret)
 	return ret, err
 }
 
 // GetTagByID is a wrapper for TagByID endpoint
 func (c *Client) GetTagByID(id int) (Tag, error) {
 	var ret Tag
-	path := fmt.Sprintf(c.Domain+TagByID, id)
+	path := fmt.Sprintf(TagByID, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -243,7 +243,7 @@ func (c *Client) GetTagByID(id int) (Tag, error) {
 // GetTagByIDWithContext is a wrapper for TagByID endpoint
 func (c *Client) GetTagByIDWithContext(ctx context.Context, id int) (Tag, error) {
 	var ret Tag
-	path := fmt.Sprintf(c.Domain+TagByID, id)
+	path := fmt.Sprintf(TagByID, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -251,7 +251,7 @@ func (c *Client) GetTagByIDWithContext(ctx context.Context, id int) (Tag, error)
 // GetTagImages is a wrapper for TagImages endpoint
 func (c *Client) GetTagImages(tagID int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+TagImages, tagID)
+	path := fmt.Sprintf(TagImages, tagID)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -259,7 +259,7 @@ func (c *Client) GetTagImages(tagID int) (MultipleContainer[Image], error) {
 // GetTagImagesWithContext is a wrapper for TagImages endpoint
 func (c *Client) GetTagImagesWithContext(ctx context.Context, tagID int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+TagImages, tagID)
+	path := fmt.Sprintf(TagImages, tagID)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -267,7 +267,7 @@ func (c *Client) GetTagImagesWithContext(ctx context.Context, tagID int) (Multip
 // GetImageByID is a wrapper for ImageByID endpoint
 func (c *Client) GetImageByID(id int) (Image, error) {
 	var ret Image
-	path := fmt.Sprintf(c.Domain+ImageByID, id)
+	path := fmt.Sprintf(ImageByID, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -275,7 +275,7 @@ func (c *Client) GetImageByID(id int) (Image, error) {
 // GetImageByIDWithContext is a wrapper for ImageByID endpoint
 func (c *Client) GetImageByIDWithContext(ctx context.Context, id int) (Image, error) {
 	var ret Image
-	path := fmt.Sprintf(c.Domain+ImageByID, id)
+	path := fmt.Sprintf(ImageByID, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -283,7 +283,7 @@ func (c *Client) GetImageByIDWithContext(ctx context.Context, id int) (Image, er
 // GetImageArtist is a wrapper for ImageArtist endpoint
 func (c *Client) GetImageArtist(id int) (Artist, error) {
 	var ret Artist
-	path := fmt.Sprintf(c.Domain+ImageArtist, id)
+	path := fmt.Sprintf(ImageArtist, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -291,7 +291,7 @@ func (c *Client) GetImageArtist(id int) (Artist, error) {
 // GetImageArtistWithContext is a wrapper for ImageArtist endpoint
 func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist, error) {
 	var ret Artist
-	path := fmt.Sprintf(c.Domain+ImageArtist, id)
+	path := fmt.Sprintf(ImageArtist, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -299,7 +299,7 @@ func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist,
 // GetImageCharacters is a wrapper for ImageCharacters endpoint
 func (c *Client) GetImageCharacters(id int) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	path := fmt.Sprintf(c.Domain+ImageCharacters, id)
+	path := fmt.Sprintf(ImageCharacters, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -307,7 +307,7 @@ func (c *Client) GetImageCharacters(id int) (MultipleContainer[Character], error
 // GetImageCharactersWithContext is a wrapper for ImageCharacters endpoint
 func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	path := fmt.Sprintf(c.Domain+ImageCharacters, id)
+	path := fmt.Sprintf(ImageCharacters, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -315,7 +315,7 @@ func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int) (Mul
 // GetImageTags is a wrapper for ImageTags endpoint
 func (c *Client) GetImageTags(id int) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	path := fmt.Sprintf(c.Domain+ImageTags, id)
+	path := fmt.Sprintf(ImageTags, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -323,7 +323,7 @@ func (c *Client) GetImageTags(id int) (MultipleContainer[Tag], error) {
 // GetImageTagsWithContext is a wrapper for ImageTags endpoint
 func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
-	path := fmt.Sprintf(c.Domain+ImageTags, id)
+	path := fmt.Sprintf(ImageTags, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -339,7 +339,7 @@ func (c *Client) GetImageTagsWithContext(ctx context.Context, id int) (MultipleC
 //   - offset (integer) - >= 0, default = 0
 func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
-	err := c.Get(c.Domain+Artists, req, &ret)
+	err := c.Get(Artists, req, &ret)
 	return ret, err
 }
 
@@ -348,14 +348,14 @@ func (c *Client) GetArtists(req Request) (MultipleContainer[Artist], error) {
 // For more info on Request parameters see GetArtists
 func (c *Client) GetArtistsWithContext(ctx context.Context, req Request) (MultipleContainer[Artist], error) {
 	var ret MultipleContainer[Artist]
-	err := c.GetWithContext(ctx, c.Domain+Artists, req, &ret)
+	err := c.GetWithContext(ctx, Artists, req, &ret)
 	return ret, err
 }
 
 // GetArtistByID is a wrapper for ArtistByID endpoint
 func (c *Client) GetArtistByID(id int) (Artist, error) {
 	var ret Artist
-	path := fmt.Sprintf(c.Domain+ArtistByID, id)
+	path := fmt.Sprintf(ArtistByID, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -363,7 +363,7 @@ func (c *Client) GetArtistByID(id int) (Artist, error) {
 // GetArtistByIDWithContext is a wrapper for ArtistByID endpoint
 func (c *Client) GetArtistByIDWithContext(ctx context.Context, id int) (Artist, error) {
 	var ret Artist
-	path := fmt.Sprintf(c.Domain+ArtistByID, id)
+	path := fmt.Sprintf(ArtistByID, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -371,7 +371,7 @@ func (c *Client) GetArtistByIDWithContext(ctx context.Context, id int) (Artist, 
 // GetArtistImages is a wrapper for ArtistImages endpoint
 func (c *Client) GetArtistImages(id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+ArtistImages, id)
+	path := fmt.Sprintf(ArtistImages, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -379,7 +379,7 @@ func (c *Client) GetArtistImages(id int) (MultipleContainer[Image], error) {
 // GetArtistImagesWithContext is a wrapper for ArtistImages endpoint
 func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+ArtistImages, id)
+	path := fmt.Sprintf(ArtistImages, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -397,7 +397,7 @@ func (c *Client) GetArtistImagesWithContext(ctx context.Context, id int) (Multip
 //   - offset (integer) - >= 0, default = 0
 func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	err := c.Get(c.Domain+Characters, req, &ret)
+	err := c.Get(Characters, req, &ret)
 	return ret, err
 }
 
@@ -406,14 +406,14 @@ func (c *Client) GetCharacters(req Request) (MultipleContainer[Character], error
 // For more info on Request parameters see GetCharacters
 func (c *Client) GetCharactersWithContext(ctx context.Context, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
-	err := c.GetWithContext(ctx, c.Domain+Characters, req, &ret)
+	err := c.GetWithContext(ctx, Characters, req, &ret)
 	return ret, err
 }
 
 // GetCharacterByID is a wrapper for CharacterByID endpoint
 func (c *Client) GetCharacterByID(id int) (Character, error) {
 	var ret Character
-	path := fmt.Sprintf(c.Domain+CharacterByID, id)
+	path := fmt.Sprintf(CharacterByID, id)
 	err := c.Get(path, nil, &ret)
 	return ret, err
 }
@@ -421,7 +421,7 @@ func (c *Client) GetCharacterByID(id int) (Character, error) {
 // GetCharacterByIDWithContext is a wrapper for CharacterByID endpoint
 func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Character, error) {
 	var ret Character
-	path := fmt.Sprintf(c.Domain+CharacterByID, id)
+	path := fmt.Sprintf(CharacterByID, id)
 	err := c.GetWithContext(ctx, path, nil, &ret)
 	return ret, err
 }
@@ -433,7 +433,7 @@ func (c *Client) GetCharacterByIDWithContext(ctx context.Context, id int) (Chara
 //   - offset (integer) - >= 0, default = 0
 func (c *Client) GetCharacterImages(id int, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+CharacterImages, id)
+	path := fmt.Sprintf(CharacterImages, id)
 	err := c.Get(path, req, &ret)
 	return ret, err
 }
@@ -443,7 +443,7 @@ func (c *Client) GetCharacterImages(id int, req Request) (MultipleContainer[Imag
 // For more info on Request parameters see GetCharacterImages
 func (c *Client) GetCharacterImagesWithContext(ctx context.Context, id int, req Request) (MultipleContainer[Image], error) {
 	var ret MultipleContainer[Image]
-	path := fmt.Sprintf(c.Domain+CharacterImages, id)
+	path := fmt.Sprintf(CharacterImages, id)
 	err := c.GetWithContext(ctx, path, req, &ret)
 	return ret, err
 }
