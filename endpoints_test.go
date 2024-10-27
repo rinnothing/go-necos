@@ -56,7 +56,7 @@ func TestGetTagImages(t *testing.T) {
 	tags, err := c.GetTags(query)
 	require.NoError(t, err)
 
-	_, err = c.GetTagImages(tags.Items[0].ID)
+	_, err = c.GetTagImages(tags.Items[0].ID, query)
 	require.NoError(t, err)
 }
 
@@ -89,7 +89,7 @@ func TestGetImageCharacters(t *testing.T) {
 	images, err := c.GetImages(query)
 	require.NoError(t, err)
 
-	_, err = c.GetImageCharacters(images.Items[0].ID)
+	_, err = c.GetImageCharacters(images.Items[0].ID, query)
 	require.NoError(t, err)
 }
 
@@ -100,7 +100,7 @@ func TestGetImageTags(t *testing.T) {
 	images, err := c.GetImages(query)
 	require.NoError(t, err)
 
-	_, err = c.GetImageTags(images.Items[0].ID)
+	_, err = c.GetImageTags(images.Items[0].ID, query)
 	require.NoError(t, err)
 }
 
@@ -130,7 +130,7 @@ func TestGetArtistImages(t *testing.T) {
 	artists, err := c.GetArtists(query)
 	require.NoError(t, err)
 
-	_, err = c.GetArtistImages(artists.Items[0].ID)
+	_, err = c.GetArtistImages(artists.Items[0].ID, query)
 	require.NoError(t, err)
 }
 
