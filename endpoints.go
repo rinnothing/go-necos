@@ -83,9 +83,9 @@ type Artist struct {
 	Aliases      []string
 	ImageURL     string `json:"image_url"`
 	Links        []string
-	PolicyRepost string `json:"policy_repost"`
-	PolicyCredit string `json:"policy_credit"`
-	PolicyAI     string `json:"policy_ai"`
+	PolicyRepost bool `json:"policy_repost"`
+	PolicyCredit bool `json:"policy_credit"`
+	PolicyAI     bool `json:"policy_ai"`
 }
 
 // Character is data type that represents character data returned by API
