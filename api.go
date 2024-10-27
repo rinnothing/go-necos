@@ -3,6 +3,7 @@ package go_necos
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"io"
 	"maps"
 	"net/http"
@@ -84,6 +85,9 @@ func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, qu
 	response, err := c.Do(req)
 	if err != nil {
 		return err
+	}
+	if response.StatusCode != http.StatusOK {
+		return errors.New(response.Status)
 	}
 
 	body, err := io.ReadAll(response.Body)
