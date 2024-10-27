@@ -230,8 +230,6 @@ func TestQuery(t *testing.T) {
 		},
 	}
 
-	t.Log(tableTests[3])
-
 	wg := sync.WaitGroup{}
 	for _, cs := range tableTests {
 		c := Client{
