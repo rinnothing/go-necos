@@ -63,8 +63,7 @@ func TestGet(t *testing.T) {
 	}
 
 	wg := sync.WaitGroup{}
-	for i := range tableTests {
-		cs := tableTests[i]
+	for _, cs := range tableTests {
 		wg.Add(1)
 
 		t.Run(cs.name, func(t *testing.T) {
