@@ -305,6 +305,8 @@ func (c *Client) GetImageArtistWithContext(ctx context.Context, id int) (Artist,
 // Request for GetImageCharacters supports those parameters:
 //   - limit (integer) - [1..100], default = 100
 //   - offset (integer) - >= 0, default = 0
+//
+// This method isn't recommended to use since most of the time the server only returns 500 (internal server error)
 func (c *Client) GetImageCharacters(id int, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	path := fmt.Sprintf(ImageCharacters, id)
@@ -313,6 +315,8 @@ func (c *Client) GetImageCharacters(id int, req Request) (MultipleContainer[Char
 }
 
 // GetImageCharactersWithContext is a wrapper for ImageCharacters endpoint
+//
+// This method isn't recommended to use since most of the time the server only returns 500 (internal server error)
 func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int, req Request) (MultipleContainer[Character], error) {
 	var ret MultipleContainer[Character]
 	path := fmt.Sprintf(ImageCharacters, id)
@@ -325,6 +329,8 @@ func (c *Client) GetImageCharactersWithContext(ctx context.Context, id int, req 
 // Request for GetImageTags supports those parameters:
 //   - limit (integer) - [1..100], default = 100
 //   - offset (integer) - >= 0, default = 0
+//
+// This method isn't recommended to use since most of the time the server only returns 500 (internal server error)
 func (c *Client) GetImageTags(id int, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	path := fmt.Sprintf(ImageTags, id)
@@ -333,6 +339,8 @@ func (c *Client) GetImageTags(id int, req Request) (MultipleContainer[Tag], erro
 }
 
 // GetImageTagsWithContext is a wrapper for ImageTags endpoint
+//
+// This method isn't recommended to use since most of the time the server only returns 500 (internal server error)
 func (c *Client) GetImageTagsWithContext(ctx context.Context, id int, req Request) (MultipleContainer[Tag], error) {
 	var ret MultipleContainer[Tag]
 	path := fmt.Sprintf(ImageTags, id)
