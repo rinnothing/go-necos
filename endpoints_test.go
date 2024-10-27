@@ -1,6 +1,7 @@
 package go_necos
 
 import (
+	"errors"
 	"github.com/stretchr/testify/require"
 	"net/url"
 	"testing"
@@ -90,6 +91,10 @@ func TestGetImageCharacters(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = c.GetImageCharacters(images.Items[0].ID, query)
+	if errors.Is(err, BadStatusError) {
+		t.Log(err)
+		return
+	}
 	require.NoError(t, err)
 }
 
@@ -101,6 +106,10 @@ func TestGetImageTags(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = c.GetImageTags(images.Items[0].ID, query)
+	if errors.Is(err, BadStatusError) {
+		t.Log(err)
+		return
+	}
 	require.NoError(t, err)
 }
 

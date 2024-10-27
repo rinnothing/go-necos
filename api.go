@@ -4,11 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"maps"
 	"net/http"
 	"net/url"
 )
+
+var BadStatusError = errors.New("bad HTTP Status Code")
 
 // Client is structure used to make calls to api easier
 type Client struct {
@@ -87,7 +90,7 @@ func (c *Client) CallAPIWithContext(ctx context.Context, method, path string, qu
 		return err
 	}
 	if response.StatusCode != http.StatusOK {
-		return errors.New(response.Status)
+		return fmt.Errorf("%w: %s", BadStatusError, response.Status)
 	}
 
 	body, err := io.ReadAll(response.Body)
