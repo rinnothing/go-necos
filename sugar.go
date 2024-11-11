@@ -1,15 +1,36 @@
 package go_necos
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 var (
 	SafeRequest = Request{"rating": []string{"safe"}}
 )
+
+// todo: make a general interface that could allow for files to be read more than once and to Close them (for SaveRam to nil it's slice and for SaveTemp to delete)
+
+// Save returns file under given name
+func Save(name string) (*os.File, error) {
+	return os.Create(name)
+}
+
+// SaveTemp returns file created in temporary directory
+//
+// it's the callers responsibility to delete file after use
+func SaveTemp() (*os.File, error) {
+	return os.CreateTemp("", "go-necos")
+}
+
+// SaveRAM return writer that saves it's content to RAM
+func SaveRAM() (*bytes.Buffer, error) {
+	return new(bytes.Buffer), nil
+}
 
 // download is the method used to do all downloads
 //
