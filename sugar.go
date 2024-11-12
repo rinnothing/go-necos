@@ -2,7 +2,6 @@ package go_necos
 
 import (
 	"bufio"
-	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -14,132 +13,70 @@ var (
 	SafeRequest = Request{"rating": []string{"safe"}}
 )
 
-type imageFilePrivate interface {
-	io.ReadWriteCloser
-	Remove() error
-	Save() error
+type fileWriter struct {
+	*bufio.Writer
+	f *os.File
 }
 
-type ImageFile interface {
-	io.ReadCloser
-	Remove() error
-	getPrivate() imageFilePrivate
-}
-
-type DiskFile struct {
-	bufio.ReadWriter
-	f     *os.File
-	saved bool
-}
-
-func NewDiskFile(f *os.File) ImageFile {
-	return &DiskFile{
-		ReadWriter: bufio.ReadWriter{
-			Reader: bufio.NewReader(f),
-			Writer: bufio.NewWriter(f),
-		},
-		f:     f,
-		saved: false,
+func newFileWriter(f *os.File) *fileWriter {
+	return &fileWriter{
+		Writer: bufio.NewWriter(f),
+		f:      f,
 	}
 }
 
-func (d *DiskFile) Close() error {
-	if err := d.Flush(); err != nil {
+func (fw *fileWriter) Close() error {
+	if err := fw.Flush(); err != nil {
 		return err
 	}
-	return d.f.Close()
+	return fw.f.Close()
 }
 
-func (d *DiskFile) Remove() error {
-	if err := d.Close(); err != nil {
-		return err
-	}
-	return os.Remove(d.f.Name())
-}
-
-func (d *DiskFile) Save() error {
-	if d.saved {
-		return nil
-	}
-
-	if err := d.Flush(); err != nil {
-		return err
-	}
-	d.saved = true
-	return nil
-}
-
-func (d *DiskFile) getPrivate() imageFilePrivate {
-	return d
-}
-
-// Save returns file under given name
-func Save(name string) (ImageFile, error) {
+// Save writes file under given name
+func Save(name string) (io.WriteCloser, error) {
 	file, err := os.Create(name)
 	if err != nil {
 		return nil, err
 	}
 
-	return NewDiskFile(file), nil
+	return newFileWriter(file), nil
 }
 
-// SaveTemp returns file created in temporary directory
+// SaveTemp writes file in a temporary directory and returns it's name
 //
 // it's the callers responsibility to delete file after use
-func SaveTemp() (ImageFile, error) {
+func SaveTemp() (io.WriteCloser, string, error) {
 	file, err := os.CreateTemp("", "go-necos")
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
-	return NewDiskFile(file), nil
+	return newFileWriter(file), file.Name(), nil
 }
 
-type RamFile struct {
-	io.ReadWriter
-	saved bool
+type sliceWriter struct {
+	slice *[]byte
 }
 
-func NewRamFile() ImageFile {
-	return &RamFile{
-		ReadWriter: &bytes.Buffer{},
-		saved:      false,
-	}
+func (sw sliceWriter) Write(p []byte) (int, error) {
+	*sw.slice = append(*sw.slice, p...)
+	return len(p), nil
 }
 
-func (r *RamFile) Close() error {
+func (sw sliceWriter) Close() error {
+	*sw.slice = (*sw.slice)[0:len(*sw.slice):len(*sw.slice)]
 	return nil
 }
 
-func (r *RamFile) Remove() error {
-	r.ReadWriter = nil
-	return nil
+// SaveToSlice return writer that saves it's content to RAM
+func SaveToSlice(dst *[]byte) io.WriteCloser {
+	return sliceWriter{slice: dst}
 }
 
-func (r *RamFile) Save() error {
-	if r.saved {
-		return nil
-	}
-
-	r.saved = true
-	return nil
-}
-
-func (r *RamFile) getPrivate() imageFilePrivate {
-	return r
-}
-
-// SaveRAM return writer that saves it's content to RAM
-func SaveRAM() (*bytes.Buffer, error) {
-	return new(bytes.Buffer), nil
-}
-
-// download is the method used to do all downloads
+// DownloadAppend is the method used to do append downloaded to given writer
 //
-// it makes a GET request to given url and writes received content to dst, saves the content when finished
-func (c *Client) download(ctx context.Context, url string, dstCmn ImageFile) error {
-	dst := dstCmn.getPrivate()
-
+// it makes a GET request to given url and writes received content to dst
+func (c *Client) DownloadAppend(ctx context.Context, url string, dst io.Writer) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
 	if err != nil {
 		return err
@@ -154,39 +91,44 @@ func (c *Client) download(ctx context.Context, url string, dstCmn ImageFile) err
 		return fmt.Errorf("%w: %s", BadStatusError, response.Status)
 	}
 
-	if _, err = io.Copy(dst, response.Body); err != nil {
-		return err
-	}
-	if err = dst.Save(); err != nil {
-		return err
-	}
+	_, err = io.Copy(dst, response.Body)
 	return err
+}
+
+// Download is the method used to download Images
+//
+// Closes the file after finished reading
+func (c *Client) Download(ctx context.Context, url string, dst io.WriteCloser) error {
+	if err := c.DownloadAppend(ctx, url, dst); err != nil {
+		return err
+	}
+	return dst.Close()
 }
 
 // DownloadImage downloads the Image with default context
 //
 // doesn't close the Writer
-func (c *Client) DownloadImage(im *Image, dst ImageFile) error {
+func (c *Client) DownloadImage(im *Image, dst io.WriteCloser) error {
 	return c.DownloadImageWithContext(context.Background(), im, dst)
 }
 
 // DownloadImageWithContext downloads the Image with given context
 //
 // doesn't close the Writer
-func (c *Client) DownloadImageWithContext(ctx context.Context, im *Image, dst ImageFile) error {
-	return c.download(ctx, im.ImageURL, dst)
+func (c *Client) DownloadImageWithContext(ctx context.Context, im *Image, dst io.WriteCloser) error {
+	return c.Download(ctx, im.ImageURL, dst)
 }
 
 // DownloadSample downloads the sample of Image with default context
 //
 // doesn't close the Writer
-func (c *Client) DownloadSample(im *Image, dst ImageFile) error {
+func (c *Client) DownloadSample(im *Image, dst io.WriteCloser) error {
 	return c.DownloadSampleWithContext(context.Background(), im, dst)
 }
 
 // DownloadSampleWithContext downloads the sample of Image with given context
 //
 // doesn't close the Writer
-func (c *Client) DownloadSampleWithContext(ctx context.Context, im *Image, dst ImageFile) error {
-	return c.download(ctx, im.SampleURL, dst)
+func (c *Client) DownloadSampleWithContext(ctx context.Context, im *Image, dst io.WriteCloser) error {
+	return c.Download(ctx, im.SampleURL, dst)
 }
