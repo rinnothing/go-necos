@@ -7,12 +7,30 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 var (
 	SafeRequest = Request{"rating": []string{"safe"}}
 	OneValue    = Request{"limit": {"1"}}
 )
+
+// GetName returns Image name
+func (im *Image) GetName() string {
+	return filepath.Base(im.ImageURL)
+}
+
+// GetSampleName returns ImageSample name
+func (im *Image) GetSampleName() string {
+	return filepath.Base(im.SampleURL)
+}
+
+// GetPattern makes a pattern to use in SaveTemp
+//
+// it assumes that ImageSample and Image have the same extension
+func (im *Image) GetPattern() string {
+	return "*" + filepath.Ext(im.ImageURL)
+}
 
 type fileWriter struct {
 	*bufio.Writer
@@ -46,8 +64,8 @@ func Save(name string) (io.WriteCloser, error) {
 // SaveTemp writes file in a temporary directory and returns it's name
 //
 // it's the callers responsibility to delete file after use
-func SaveTemp() (io.WriteCloser, string, error) {
-	file, err := os.CreateTemp("", "go-necos")
+func SaveTemp(pattern string) (io.WriteCloser, string, error) {
+	file, err := os.CreateTemp("", pattern)
 	if err != nil {
 		return nil, "", err
 	}
