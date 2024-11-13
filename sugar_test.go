@@ -17,7 +17,7 @@ func TestDownloadImage(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(OneValue)
+	images, err := c.GetImages(OneValue())
 	require.NoError(t, err)
 	require.GreaterOrEqual(t, images.Count, 1)
 
@@ -35,7 +35,7 @@ func TestDownloadSample(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(OneValue)
+	images, err := c.GetImages(OneValue())
 	require.NoError(t, err)
 	require.GreaterOrEqual(t, images.Count, 1)
 
@@ -53,7 +53,7 @@ func TestSave(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(OneValue)
+	images, err := c.GetImages(OneValue())
 	require.NoError(t, err)
 	require.GreaterOrEqual(t, images.Count, 1)
 
@@ -79,7 +79,7 @@ func TestSaveTemp(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(OneValue)
+	images, err := c.GetImages(OneValue())
 	require.NoError(t, err)
 	require.GreaterOrEqual(t, images.Count, 1)
 
@@ -104,7 +104,7 @@ func TestOneValue(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(OneValue)
+	images, err := c.GetImages(OneValue())
 	require.NoError(t, err)
 
 	require.Equal(t, 1, len(images.Items))
@@ -114,7 +114,7 @@ func TestSafeRequest(t *testing.T) {
 	t.Parallel()
 	c := NewClient()
 
-	images, err := c.GetImages(SafeRequest)
+	images, err := c.GetImages(SafeRequest())
 	require.NoError(t, err)
 
 	for _, im := range images.Items {

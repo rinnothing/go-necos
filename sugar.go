@@ -5,15 +5,24 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"maps"
 	"net/http"
 	"os"
 	"path/filepath"
 )
 
 var (
-	SafeRequest = Request{"rating": []string{"safe"}}
-	OneValue    = Request{"limit": {"1"}}
+	safeRequest = Request{"rating": []string{"safe"}}
+	oneValue    = Request{"limit": {"1"}}
 )
+
+func SafeRequest() Request {
+	return maps.Clone(safeRequest)
+}
+
+func OneValue() Request {
+	return maps.Clone(oneValue)
+}
 
 // GetName returns Image name
 func (im *Image) GetName() string {
