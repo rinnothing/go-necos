@@ -3,21 +3,17 @@ package go_necos
 import (
 	"errors"
 	"github.com/stretchr/testify/require"
-	"net/url"
 	"testing"
 )
 
 // Since I'm lazy to try to mimic the way API should respond to my requests
 // I will simply send requests to API itself
 
-// I also don't want it to take an era to accomplish so limit is 1
-var query = url.Values{"limit": {"1"}}
-
 func TestGetImages(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	_, err := c.GetImages(query)
+	_, err := c.GetImages(OneValue)
 	require.NoError(t, err)
 }
 
@@ -25,7 +21,7 @@ func TestGetRandomImages(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	_, err := c.GetRandomImages(query)
+	_, err := c.GetRandomImages(OneValue)
 	require.NoError(t, err)
 }
 
@@ -35,7 +31,7 @@ func TestGetTags(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	_, err := c.GetTags(query)
+	_, err := c.GetTags(OneValue)
 	require.NoError(t, err)
 }
 
@@ -43,7 +39,7 @@ func TestGetTagByID(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	tags, err := c.GetTags(query)
+	tags, err := c.GetTags(OneValue)
 	require.NoError(t, err)
 
 	_, err = c.GetTagByID(tags.Items[0].ID)
@@ -54,10 +50,10 @@ func TestGetTagImages(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	tags, err := c.GetTags(query)
+	tags, err := c.GetTags(OneValue)
 	require.NoError(t, err)
 
-	_, err = c.GetTagImages(tags.Items[0].ID, query)
+	_, err = c.GetTagImages(tags.Items[0].ID, OneValue)
 	require.NoError(t, err)
 }
 
@@ -65,7 +61,7 @@ func TestGetImageByID(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	images, err := c.GetImages(query)
+	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
 
 	_, err = c.GetImageByID(images.Items[0].ID)
@@ -76,7 +72,7 @@ func TestGetImageArtist(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	images, err := c.GetImages(query)
+	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
 
 	_, err = c.GetImageArtist(images.Items[0].ID)
@@ -87,10 +83,10 @@ func TestGetImageCharacters(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	images, err := c.GetImages(query)
+	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
 
-	_, err = c.GetImageCharacters(images.Items[0].ID, query)
+	_, err = c.GetImageCharacters(images.Items[0].ID, OneValue)
 	if errors.Is(err, BadStatusError) {
 		t.Log(err)
 		return
@@ -102,10 +98,10 @@ func TestGetImageTags(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	images, err := c.GetImages(query)
+	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
 
-	_, err = c.GetImageTags(images.Items[0].ID, query)
+	_, err = c.GetImageTags(images.Items[0].ID, OneValue)
 	if errors.Is(err, BadStatusError) {
 		t.Log(err)
 		return
@@ -117,7 +113,7 @@ func TestGetArtists(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	_, err := c.GetArtists(query)
+	_, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
 }
 
@@ -125,7 +121,7 @@ func TestGetArtistByID(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	artists, err := c.GetArtists(query)
+	artists, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
 
 	_, err = c.GetArtistByID(artists.Items[0].ID)
@@ -136,10 +132,10 @@ func TestGetArtistImages(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	artists, err := c.GetArtists(query)
+	artists, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
 
-	_, err = c.GetArtistImages(artists.Items[0].ID, query)
+	_, err = c.GetArtistImages(artists.Items[0].ID, OneValue)
 	require.NoError(t, err)
 }
 
@@ -147,7 +143,7 @@ func TestGetCharacters(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	_, err := c.GetCharacters(query)
+	_, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)
 }
 
@@ -155,7 +151,7 @@ func TestGetCharacterByID(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	characters, err := c.GetCharacters(query)
+	characters, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)
 
 	_, err = c.GetCharacterByID(characters.Items[0].ID)
@@ -166,9 +162,9 @@ func TestGetCharacterImages(t *testing.T) {
 	t.Parallel()
 	c := newClient()
 
-	characters, err := c.GetCharacters(query)
+	characters, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)
 
-	_, err = c.GetCharacterImages(characters.Items[0].ID, query)
+	_, err = c.GetCharacterImages(characters.Items[0].ID, OneValue)
 	require.NoError(t, err)
 }
