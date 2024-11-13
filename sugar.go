@@ -11,6 +11,7 @@ import (
 
 var (
 	SafeRequest = Request{"rating": []string{"safe"}}
+	OneValue    = Request{"limit": {"1"}}
 )
 
 type fileWriter struct {
