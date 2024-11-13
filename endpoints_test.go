@@ -11,7 +11,7 @@ import (
 
 func TestGetImages(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	_, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -19,7 +19,7 @@ func TestGetImages(t *testing.T) {
 
 func TestGetRandomImages(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	_, err := c.GetRandomImages(OneValue)
 	require.NoError(t, err)
@@ -29,7 +29,7 @@ func TestGetRandomImages(t *testing.T) {
 
 func TestGetTags(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	_, err := c.GetTags(OneValue)
 	require.NoError(t, err)
@@ -37,7 +37,7 @@ func TestGetTags(t *testing.T) {
 
 func TestGetTagByID(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	tags, err := c.GetTags(OneValue)
 	require.NoError(t, err)
@@ -48,7 +48,7 @@ func TestGetTagByID(t *testing.T) {
 
 func TestGetTagImages(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	tags, err := c.GetTags(OneValue)
 	require.NoError(t, err)
@@ -59,7 +59,7 @@ func TestGetTagImages(t *testing.T) {
 
 func TestGetImageByID(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -70,7 +70,7 @@ func TestGetImageByID(t *testing.T) {
 
 func TestGetImageArtist(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -81,7 +81,7 @@ func TestGetImageArtist(t *testing.T) {
 
 func TestGetImageCharacters(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -96,7 +96,7 @@ func TestGetImageCharacters(t *testing.T) {
 
 func TestGetImageTags(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -111,7 +111,7 @@ func TestGetImageTags(t *testing.T) {
 
 func TestGetArtists(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	_, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
@@ -119,7 +119,7 @@ func TestGetArtists(t *testing.T) {
 
 func TestGetArtistByID(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	artists, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
@@ -130,7 +130,7 @@ func TestGetArtistByID(t *testing.T) {
 
 func TestGetArtistImages(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	artists, err := c.GetArtists(OneValue)
 	require.NoError(t, err)
@@ -141,7 +141,7 @@ func TestGetArtistImages(t *testing.T) {
 
 func TestGetCharacters(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	_, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)
@@ -149,7 +149,7 @@ func TestGetCharacters(t *testing.T) {
 
 func TestGetCharacterByID(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	characters, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)
@@ -160,7 +160,7 @@ func TestGetCharacterByID(t *testing.T) {
 
 func TestGetCharacterImages(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	characters, err := c.GetCharacters(OneValue)
 	require.NoError(t, err)

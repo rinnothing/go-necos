@@ -20,7 +20,7 @@ type Client struct {
 	Domain       string
 }
 
-func newClient() *Client {
+func NewClient() *Client {
 	return &Client{Domain: DefaultDomain}
 }
 
