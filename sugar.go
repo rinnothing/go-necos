@@ -24,6 +24,46 @@ func OneValue() Request {
 	return maps.Clone(oneValue)
 }
 
+// SetFields sets given fields to Request;
+// odd are considered keys and even values
+//
+// if given nil Request makes Request itself
+//
+// panics on uneven number of args
+func SetFields(r Request, args ...string) Request {
+	if len(args)%2 != 0 {
+		panic("uneven number of arguments")
+	}
+	if r == nil {
+		r = Request{}
+	}
+
+	for i := 0; i < len(args); i += 2 {
+		r.Set(args[i], args[i+1])
+	}
+	return r
+}
+
+// AddFields adds given fields to Request;
+// odd are considered keys and even values
+//
+// if given nil Request makes Request itself
+//
+// panics on uneven number of args
+func AddFields(r Request, args ...string) Request {
+	if len(args)%2 != 0 {
+		panic("uneven number of arguments")
+	}
+	if r == nil {
+		r = Request{}
+	}
+
+	for i := 0; i < len(args); i += 2 {
+		r.Add(args[i], args[i+1])
+	}
+	return r
+}
+
 // GetName returns Image name
 func (im *Image) GetName() string {
 	return filepath.Base(im.ImageURL)

@@ -122,3 +122,50 @@ func TestSafeRequest(t *testing.T) {
 	}
 }
 
+func TestAddFields(t *testing.T) {
+	goal := Request{
+		"clean": {"shirt"},
+		"new":   {"shoes"},
+		"and":   {"I", "don't", "know"},
+	}
+
+	req := AddFields(nil,
+		"clean", "shirt",
+		"new", "shoes",
+		"and", "I",
+		"and", "don't",
+		"and", "know")
+
+	require.Equal(t, goal, req)
+
+	AddFields(req, "where", "I'm")
+	goal.Add("where", "I'm")
+
+	require.Equal(t, goal, req)
+}
+
+func TestSetFields(t *testing.T) {
+	goal := Request{
+		"fly":         {"me"},
+		"to":          {"the"},
+		"moon":        {"and"},
+		"let me play": {"among the stars"},
+	}
+
+	req := SetFields(nil,
+		"fly", "me",
+		"to", "the",
+		"moon", "and",
+		"let me play", "amogus",
+		"let me play", "among the stars")
+
+	require.Equal(t, goal, req)
+
+	SetFields(req,
+		"moon", "heart",
+		"billy", "jean")
+	goal.Set("moon", "heart")
+	goal.Add("billy", "jean")
+
+	require.Equal(t, goal, req)
+}
