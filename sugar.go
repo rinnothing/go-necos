@@ -26,11 +26,12 @@ func OneValue() Request {
 
 // SetFields sets given fields to Request;
 // odd are considered keys and even values
+// args should be convertible to string
 //
 // if given nil Request makes Request itself
 //
 // panics on uneven number of args
-func SetFields(r Request, args ...string) Request {
+func SetFields(r Request, args ...any) Request {
 	if len(args)%2 != 0 {
 		panic("uneven number of arguments")
 	}
@@ -39,18 +40,19 @@ func SetFields(r Request, args ...string) Request {
 	}
 
 	for i := 0; i < len(args); i += 2 {
-		r.Set(args[i], args[i+1])
+		r.Set(fmt.Sprint(args[i]), fmt.Sprint(args[i+1]))
 	}
 	return r
 }
 
-// AddFields adds given fields to Request;
-// odd are considered keys and even values
+// AddFields adds given fields to Request,
+// odd are considered keys and even values,
+// args should be convertible to string
 //
 // if given nil Request makes Request itself
 //
 // panics on uneven number of args
-func AddFields(r Request, args ...string) Request {
+func AddFields(r Request, args ...any) Request {
 	if len(args)%2 != 0 {
 		panic("uneven number of arguments")
 	}
@@ -59,7 +61,7 @@ func AddFields(r Request, args ...string) Request {
 	}
 
 	for i := 0; i < len(args); i += 2 {
-		r.Add(args[i], args[i+1])
+		r.Add(fmt.Sprint(args[i]), fmt.Sprint(args[i+1]))
 	}
 	return r
 }

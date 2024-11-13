@@ -138,8 +138,8 @@ func TestAddFields(t *testing.T) {
 
 	require.Equal(t, goal, req)
 
-	AddFields(req, "where", "I'm")
-	goal.Add("where", "I'm")
+	AddFields(req, "where", 1)
+	goal.Add("where", "1")
 
 	require.Equal(t, goal, req)
 }
@@ -162,9 +162,9 @@ func TestSetFields(t *testing.T) {
 	require.Equal(t, goal, req)
 
 	SetFields(req,
-		"moon", "heart",
+		"moon", 1,
 		"billy", "jean")
-	goal.Set("moon", "heart")
+	goal.Set("moon", "1")
 	goal.Add("billy", "jean")
 
 	require.Equal(t, goal, req)
