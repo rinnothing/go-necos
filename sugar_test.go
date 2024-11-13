@@ -15,7 +15,7 @@ import (
 // Basically the same as TestSaveToSlice
 func TestDownloadImage(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -33,7 +33,7 @@ func TestDownloadImage(t *testing.T) {
 
 func TestDownloadSample(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -51,7 +51,7 @@ func TestDownloadSample(t *testing.T) {
 
 func TestSave(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -77,7 +77,7 @@ func TestSave(t *testing.T) {
 
 func TestSaveTemp(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -102,7 +102,7 @@ func TestSaveTemp(t *testing.T) {
 
 func TestOneValue(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(OneValue)
 	require.NoError(t, err)
@@ -112,7 +112,7 @@ func TestOneValue(t *testing.T) {
 
 func TestSafeRequest(t *testing.T) {
 	t.Parallel()
-	c := newClient()
+	c := NewClient()
 
 	images, err := c.GetImages(SafeRequest)
 	require.NoError(t, err)
