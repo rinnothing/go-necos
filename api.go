@@ -1,4 +1,4 @@
-package go_necos
+package necos
 
 import (
 	"context"
