@@ -177,28 +177,28 @@ func (c *Client) Download(ctx context.Context, url string, dst io.WriteCloser) e
 
 // DownloadImage downloads the Image with default context
 //
-// doesn't close the Writer
+// closes the Writer
 func (c *Client) DownloadImage(im *Image, dst io.WriteCloser) error {
 	return c.DownloadImageWithContext(context.Background(), im, dst)
 }
 
 // DownloadImageWithContext downloads the Image with given context
 //
-// doesn't close the Writer
+// closes the Writer
 func (c *Client) DownloadImageWithContext(ctx context.Context, im *Image, dst io.WriteCloser) error {
 	return c.Download(ctx, im.ImageURL, dst)
 }
 
 // DownloadSample downloads the sample of Image with default context
 //
-// doesn't close the Writer
+// closes the Writer
 func (c *Client) DownloadSample(im *Image, dst io.WriteCloser) error {
 	return c.DownloadSampleWithContext(context.Background(), im, dst)
 }
 
 // DownloadSampleWithContext downloads the sample of Image with given context
 //
-// doesn't close the Writer
+// closes the Writer
 func (c *Client) DownloadSampleWithContext(ctx context.Context, im *Image, dst io.WriteCloser) error {
 	return c.Download(ctx, im.SampleURL, dst)
 }
