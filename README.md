@@ -1,6 +1,8 @@
 # go-necos
 ### Simple Nekos API wrapper written in Go
 
+![Go](https://img.shields.io/badge/Go-00ADD8?style=plastic&logo=go&logoColor=white) ![tests](https://github.com/rinnothing/go-necos/actions/workflows/go.yml/badge.svg)
+
 Documentation for the API can be found by the links below:
 
 [nekosapi.com/docs](https://nekosapi.com/docs) | [api.nekosapi.com/v3/docs](https://api.nekosapi.com/v3/docs)
